@@ -109,15 +109,16 @@ def generate_potatso(domains):
     # render the potatso.conf file
     potatso_conf_content = get_data_from_file('resources/potatso.tpl')
     rule = list()
-    rule_tpl = "  - DOMAIN-SUFFIX,{domainstr},{proxy_name}"
+    rule_tpl = "    \"DOMAIN-SUFFIX, {domainstr}, {proxy_name}\","
     for domain in domains:
         rule.append(rule_tpl.format(
                 domainstr=domain,
-                proxy_name="Proxy"
+                proxy_name="PROXY"
             )
         )
+    
     potatso_conf_content = potatso_conf_content.replace('__RULE__',
-            "\n".join(rule))
+            "\n".join(rule)[:-1])
     return potatso_conf_content.encode('utf-8')
 
 def find_fast_ip(ips):
